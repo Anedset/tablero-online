@@ -1,5 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.4/firebase-app.js";
-import { getDatabase, ref, onValue , child, push, update ,remove} from "https://www.gstatic.com/firebasejs/9.8.4/firebase-database.js" ;
 window.addEventListener('load',()=>{
   // Eventos raton
   miCanvas.addEventListener('mousedown', empezarDibujo);
@@ -17,17 +15,6 @@ window.addEventListener('load',()=>{
     ctrl = false ;
   } , 1000) ;
 }) ;
-
-const firebaseConfig = {
-  apiKey: "AIzaSyArXW75UjAyXqzkJOiLxEjrHeDcWHOmYo8",
-  authDomain: "practicadb-e5743.firebaseapp.com",
-  projectId: "practicadb-e5743",
-  storageBucket: "practicadb-e5743.appspot.com",
-  messagingSenderId: "825258189107",
-  appId: "1:825258189107:web:3bbc428afde43b8e189e46"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase();
 
 let [miCanvas ,lineas] = [document.querySelector('#pizarra') ,[]];
 let [correccionX ,correccionY ,pintarLinea ,ctrl] = [0 ,0 ,false ,false] ;
@@ -98,22 +85,6 @@ function rederizar() {
   });
 }
 
-function update_a() {
-  const vector = JSON.stringify(lineas) ;
-  const updates = {};
-  updates['/vector/'] = vector;
-  update(ref(db), updates);
-}
-
-function retorno() {
-  const starCountRef = ref(db, `/vector/`);
-  onValue(starCountRef, (snapshot) => {
-    lineas = JSON.parse(snapshot.val());
-    rederizar() ;
-  });
-}
-
-/*
 async function update_a() {
   const formData = new FormData() ;
   formData.append('val',JSON.stringify(lineas)) ;
@@ -128,4 +99,3 @@ async function retorno() {
   lineas = JSON.parse(data) ;
   rederizar() ;
 }
-*/
